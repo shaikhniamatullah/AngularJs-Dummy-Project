@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Contact Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  
+
+
+</head>
+
+<body style=" background-color:lightblue">
+<div ng-app="" ng-controller="blogController">
+  <style>
+ .container {
+    width: 1400px;
+    color: navy;
+    background-color: pink;
+    border: 4px solid darkblue;
+    padding: 25px;
+ }
+</style> 
+
+
+
+  <div class="container" >
+  
+ 
+       <H1>Contact Form</H1>
+
+  
+        <form  class="form-horizontal" role="form" id="contact-form" novalidate="novalidate">
+              <div class="form-group">
+                      <label for="inputName" class="control-label">Username</label>
+                      <input type="text" class="form-control"  id="username"data-toggle="tooltip" title="enter valid  name" name="user"placeholder="Cina Saffary" ng-model ="user" required/>
+ 
+              </div>
+  
+               <div class="form-group">
+                      <label for="inputEmail" class="control-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email" ng-model="email" data-error="Bruh, that email address is invalid" required>
+                
+               </div>
+
+                <div class="form-group">
+                      <label for="inputEmail" class="control-label">Mobile No</label>
+                      <input type="text" class="form-control" id="txtPhone" name="mobno" ng-model="mobileno" placeholder="Enter your mobile no" pattern="^\d{4}-\d{3}-\d{4}$" required>
+               
+                </div>
+       
+                 <br>
+        
+                
+
+                  <div class="Form-group"> 
+                        <div class="col-md-12 text-center">   
+                            <button type="submit" name="request" class="btn btn-success btn-lg " name="submit"  ng-click="insertData()"><span class="glyphicon  glyphicon-saved" >Submit</span></button>
+                            <button type="cancel" class="btn btn-danger btn-lg" ><span class="glyphicon glyphicon-remove">cancel</span></button>
+                        </div>   
+                  </div>
+                      
+                        <br>
+                       
+
+                       <div >
+                           <i><b>Search</b></i><input type="text"  id="search" name="search" placeholder="" ng-model="search"  required>
+
+                          
+                          
+                         
+                       </div>
+                          <br>
+                        <table class="table table-bordered ">
+                            <thead>
+                                <tr>
+                                  <th>slno</th>
+                                  <th>username</th>
+                                  <th>emailid</th>
+                                  <th>mobileno</th>
+                                  <th>action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="mongolist in mongolists |  filter:search">
+                                    <td><input type="checkbox"  ng-model="mongolist.checked" value="[$index + 1]" ng-click = "checkboxClick($index)"> {{$index + 1}} </td>
+                                    <td>{{mongolist.name}}</td>
+                                    <td>{{mongolist.email}}</td>
+                                    <td>{{mongolist.mobno}}</td>
+                                    <td><button type="submit" name="request" class="btn btn-info btn-lg "  data-toggle="modal" data-target="#myModal"  ng-click="editData($index)"><span class="glyphicon glyphicon-star" >Edit</span></button>
+                                    &nbsp;&nbsp;<button type="button" class="btn btn-danger btn-lg"  data-toggle="modal" data-target="#myModal1" ng-click="deleteData($index);"><span class="glyphicon glyphicon-remove">delete</span></button></td>
+                              </tr>
+                            </tbody>  
+                        </table>
+                        <div class="col-md-12 text-center">   
+                            <button type="submit" name="request" class="btn btn-success btn-lg " ng-click="deleteallData()"><span class="glyphicon glyphicon-saved" >DeleteAll</span></button>
+    
+                        </div>  
+        </form>
+                         
+                            
+                    
+       <div class="modal fade" id="myModal" role="document">
+              <div class="modal-dialog modal-lg ">
+
+                  <div class="modal-content" >
+           
+                           <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+                               <div class="modal-body">
+                                  <form role="form">
+                      
+                                      <div class="form-group">
+                                              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> username</label>
+                                              <input type="text" class="form-control"   ng-model="userName.name" value= " ">
+                          
+                        
+                                      </div>
+                                      <div class="form-group">
+                                              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span>email</label>
+                                              <input type="text" class="form-control"   ng-model="userName.email" value="" >
+                                      </div>
+                                      <div class="form-group">
+                                              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span>mobileno</label>
+                                              <input type="text" class="form-control"   ng-model="userName.mobno" value="" >
+                                      </div>
+                                   </form>  
+             
+                               </div>
+                                     <div class="modal-footer">
+                                               <button type="submit" class="btn btn-success "  data-dismiss="modal" ng-click="updateData()">Update
+                                               </button>
+                                                <button type="cancel" class="btn btn-danger " data-dismiss="modal" ><span class="glyphicon glyphicon-remove">Cancel</span> 
+                                      </div>
+                
+
+                     </div>
+
+      
+                 </div>
+
+          </div>
+                        <div class="modal fade" id="myModal1" role="document">
+                            <div class="modal-dialog modal-lg ">
+
+                              <div class="modal-content" >
+           
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+                                    <div class="modal-body">
+                                      <form role="form">
+                      
+                                              <div class="form-group">
+                                                 <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> username</label>
+                                                 <input type="text" class="form-control"   ng-model="userName.name" value= " ">
+                          
+                        
+                                              </div>
+                                               <div class="form-group">
+                                                      <label for="psw"><span class="glyphicon glyphicon-eye-open"></span>email</label>
+                                                      <input type="text" class="form-control"   ng-model="userName.email" value="" >
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="psw"><span class="glyphicon glyphicon-eye-open"></span>mobileno</label>
+                                                  <input type="text" class="form-control"   ng-model="userName.mobno" value="" >
+                                             </div>
+                                      </form>  
+             
+                                   </div>
+                                     <div class="modal-footer">
+                                               <button type="submit" class="btn btn-primary "  data-dismiss="modal" ng-click="discardData()"><span class="glyphicon glyphicon-remove">delete</span>
+                                               </button>
+                                                <button type="cancel" class="btn btn-danger " data-dismiss="modal" ><span class="glyphicon glyphicon-remove">Cancel</span> 
+                                      </div>
+                
+
+                            </div>
+
+      
+                          </div>
+
+                       </div>
+           
+
+
+
+
+ 
+  </div>
+
+
+
+</div>
+
+
+<script>
+//Controller
+function blogController($scope,$http) {
+      //$scope.firstName = "Pankaj",
+      //$scope.lastName = "Kumar",
+      $scope.searchlists=[];
+      $scope.mongolists=[];
+      $scope.userName = {};
+       $scope.userName = {};
+      $scope.deleteallrecords=[];
+      $scope.originForm= angular.copy($scope.user);
+      $scope.originForm = angular.copy($scope.email);
+      $scope.originForm= angular.copy($scope.mobileno);
+      $scope.resetForm = function(){
+        $scope.user = angular.copy($scope.originForm);
+  
+       // this line will update status of your form, but will not clean your data, where `registrForm` - name of form.
+         };
+
+     $scope.fetchData = function (){
+     console.log("fetchData() is called ...");
+         var formdata={
+              formdata:{
+               reqId : 0
+              }
+           };
+      console.log("formdata",formdata)
+      $http({
+            method : 'POST',
+            url : 'crudOperation',
+            params:formdata
+        }).success(function(data, status, headers, config) {
+            console.log("huiiiiiiii");
+            $scope.mongolists=data;
+
+        }).error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+
+    }
+
+       $scope.fetchData();
+
+          $scope.insertData = function(){ alert(222)
+
+             var formdata={
+             formdata:{
+              username:$scope.user,
+              email:$scope.email,
+              mobileno:$scope.mobileno,
+               reqId : 1
+                }
+              };
+            $scope.user = angular.copy($scope.originForm);
+            $scope.email = angular.copy($scope.originForm);
+            $scope.mobileno = angular.copy($scope.originForm);
+     
+            
+    
+         
+            console.log("formdata--->>> ", formdata); 
+                    $http({
+                        method : 'POST',
+                        url : 'crudOperation',
+                        params:formdata
+                      }).success(function(data, status, headers, config) {
+                        console.log("huiiiiiiii");
+                        $scope.mongolists=$scope.fetchData();
+                    
+                         }).error(function(data, status, headers, config) {
+                          console.log("error is arising>>>>>>>>>");
+                         });
+                     } 
+
+
+
+                 $scope.editData=function(index)
+                    {
+       
+       
+                     $scope.userName= $scope.mongolists[index];
+        
+                      console.log("the scope is", $scope.userName);
+                      
+                    }
+                    $scope.updateData=function(){
+                      var formdata={
+                             formdata:{
+                                 username:$scope.userName.name,
+                                    email:$scope.userName.email,
+                                    mobno:$scope.userName.mobno,
+                                    reqId : 2
+                                     }
+                                 };
+                      console.log("updataData send request>>>>",formdata);
+                        $http({
+                        method : 'POST',
+                        url : 'crudOperation',
+                        params:formdata
+                        }).success(function(data, status, headers, config) {
+                          console.log("updataData is coming<<<<<",data);
+                             
+
+                    
+                         }).error(function(data, status, headers, config) {
+                          console.log("error is arising>>>>>>>>>");
+                         });
+
+
+                    }
+                     $scope.deleteData=function(index)
+                    {
+       
+       
+                     $scope.userName= $scope.mongolists[index];
+        
+                      console.log("the scope is", $scope.userName);
+                      
+                    }
+                    $scope.discardData=function(){
+                      var formdata={
+                             formdata:{
+                                 username:$scope.userName.name,
+                                    email:$scope.userName.email,
+                                    mobno:$scope.userName.mobno,
+                                    reqId : 3
+                                     }
+                                 };
+                      console.log("deleteData send request>>>>",formdata);
+                        $http({
+                        method : 'POST',
+                        url : 'crudOperation',
+                        params:formdata
+                        }).success(function(data, status, headers, config) {
+                          //console.log("updataData is coming<<<<<",data);
+                             console.log("data succesfully deleted",data);
+                                  $scope.mongo=$scope.fetchData();
+                                
+                         }).error(function(data, status, headers, config) {
+                          console.log("error is arising>>>>>>>>>");
+                         });
+
+
+                    }
+                   $scope.checkboxClick =function(index)
+                         {
+                          var mongolist = $scope.mongolists[index].name;
+                     
+                     
+                          $scope.deleteallrecords.push(mongolist)
+
+                         }
+                         
+                          
+                            
+
+
+                            $scope.deleteallData=function(){
+                               var formdata={
+                               formdata:{
+                               namelist:$scope.deleteallrecords,
+                               reqId : 4
+                              }
+                            };
+                             console.log("checkbox data is sending>>>>",formdata);
+                      
+              
+                             $http({
+                                method : 'POST',
+                                url : 'crudOperation',
+                                params:formdata
+                               }).success(function(data, status, headers, config) {
+                         
+                                  //console.log("data succesfully deleted",data);
+                                  $scope.mongo=$scope.fetchData();
+                                  console.log("data is succesfully is deleted");
+                                   
+                                   }).error(function(data, status, headers, config) {
+                                         console.log("error is arising>>>>>>>>>");
+                                   });
+
+                            }
+   
+                            
+                           
+                          
+                              
+                    
+          
+        }
+
+
+   </script>
+ </body>
+</html>
